@@ -1,0 +1,80 @@
+
+<?php
+//echo '<pre>';
+//var_dump(get_class_methods($block->formatDate()));
+//echo '</pre>';
+
+?>
+<?php $block->getHisCollection()?>
+<div class="block block-dashboard-info">
+    <div class="block-title"><strong>Gift Card Information</strong></div>
+    <div class="block-content">
+        <div class="box box-information">
+            <strong class="box-title">
+                <span>Balance</span>
+            </strong>
+            <div class="box-content">
+                <p>
+                    <?php
+                        echo $block->getFormatedPrice($block->getCusBalance());
+                    ?>
+                </p>
+            </div>
+
+        </div>
+        <?php if ($block->getConfig()==1) { ?>
+
+            <div class="box box-newsletter">
+                <strong class="box-title">
+                    <span>Redeem</span>
+                </strong>
+                <div class="block newsletter">
+                    <div class="content">
+                        <form class="form subscribe"
+                              novalidate
+                              action="<?= $block->escapeUrl($block->getUrl('giftcard/mygiftcard/form')) ?>"
+
+                              data-mage-init='{"validation": {"errorClass": "mage-error"}}'
+                              id="newsletter-validate-detail">
+                            <input name="code" type="text" id="newsletter"
+                                   placeholder="Enter gift card code"
+                                   data-mage-init='{"mage/trim-input":{}}'
+                                   data-validate="{required:true}"
+                                   style="width: 300px;padding: 1px 9px 1px 9px">
+                            <div class="actions">
+                                <button class="action subscribe primary"  type="submit">
+                                    <span><?= $block->escapeHtml(__('Redeem')) ?></span>
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
+
+
+    </div>
+</div>
+<div class="block block-dashboard-info">
+    <div style="  font-size: 2.2rem; font-weight: 300; padding : 0px 0px 12px 0px">History</div>
+    <div class="block-content">
+        <table class="table">
+            <tr>
+                <th >Date</th>
+                <th >Code</th>
+                <th>Amount</th>
+                <th>Action</th>
+            </tr>
+            <?php
+            foreach ($block->getHisCollection() as $key=>$post): ?>
+               <tr>
+                    <td><?= $block->formatDate($post->getActionTime()) ?></td>
+                    <td> <?= $post->getCode() ?> </td>
+                    <td><?= $block->getFormatedPrice($post->getAmount()) ?></td>
+                    <td><?= $post->getAction() ?></td>
+               </tr>
+
+            <?php endforeach; ?>
+        </table>
+    </div>
+</div>
