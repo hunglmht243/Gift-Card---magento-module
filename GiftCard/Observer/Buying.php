@@ -39,7 +39,7 @@ class Buying implements \Magento\Framework\Event\ObserverInterface
         $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/log01.log');
         $logger = new \Zend\Log\Logger();
         $logger->addWriter($writer);
-        $logger->info('class aaaaaa: '.get_class($observer->getData('order')));
+        $logger->info('class bbb: '.get_class($observer->getData('order')));
 
 
           $product = $this->_productFactory->create();

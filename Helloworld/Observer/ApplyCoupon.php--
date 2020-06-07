@@ -1,0 +1,52 @@
+<?php
+namespace Mageplaza\HelloWorld\Observer;
+use Magento\Framework\Event\Observer;
+use Magento\Framework\App\ActionFlag;
+use Magento\Framework\App\Response\RedirectInterface;
+class ApplyCoupon implements \Magento\Framework\Event\ObserverInterface
+{
+    protected $_resultPageFactory;
+    protected $_resultFactory;
+    protected $_actionFlag;
+    protected $_redirect;
+    public function __construct(
+        \Magento\Framework\View\Result\PageFactory $resultPageFactory,
+        \Magento\Framework\Controller\ResultFactory $resulFactory,
+        ActionFlag $actionFlag,
+        RedirectInterface $redirect
+        )
+    {
+        $this->_resultPageFactory = $resultPageFactory;
+        $this->_resultFactory = $resulFactory;
+        $this->_actionFlag = $actionFlag;
+        $this->_redirect = $redirect;
+    }
+    public function execute(Observer $observer)
+    {
+        $writer1 = new \Zend\Log\Writer\Stream(BP . '/var/log/log03.log');
+        $logger1 = new \Zend\Log\Logger();
+        $logger1->addWriter($writer1);
+//        try {
+        $logger1->info('class bbb: ');
+        //$this->_actionFlag->set('', \Magento\Framework\App\Action\Action::FLAG_NO_DISPATCH, true);
+
+        $resultRedirect = $this->_resultFactory->create(\Magento\Framework\Controller\ResultFactory::TYPE_REDIRECT);
+
+            $resultRedirect->setPath('checkout/cart/couponPost', ['coupon_code' => 'hun']);
+        //$this->_redirect->redirect($controller->getResponse(), 'checkout/cart/index');
+
+        return $resultRedirect;
+//        } catch (\Exception $e) {
+//            $logger1->info($e->getMessage());
+//        }
+
+//        $email = $subscriber->getEmail();
+//        $subscriberStatus = $subscriber->getSubscriberStatus();
+        // subscriberStatus = 1 subscribe
+        // subscriberStatus = 3 unsubscribed
+//        if ( $subscriberStatus == '1') {
+//        }
+        //echo 'â';
+
+    }
+}
